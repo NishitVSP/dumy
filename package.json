@@ -1,13 +1,19 @@
 {
   "name": "mock",
   "version": "1.0.0",
-  "description": "generating dumy data",
-  "main": "data.js",
+  "description": "Generating dummy data",
   "repository": "https://github.com/NishitVSP/dumy.git",
   "author": "Nishit Prajapati",
   "license": "MIT",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "main": "data.js",
+  "scripts": {
+    "start": "node data.js",
+    "dev": "nodemon data.js",
+    "main": "node mock/main.js",
+    "workers": "node workers/worker.js"
+  },
   "dependencies": {
     "express": "^5.1.0",
     "logger": "^0.0.1",
@@ -15,11 +21,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
-  },
-  "scripts": {
-    "start": "node data.js",
-    "dev": "nodemon data.js",
-    "token-mock": "node tokenMock.js",
-    "main": "node mock/main.js"
   }
 }
