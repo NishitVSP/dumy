@@ -6,9 +6,11 @@
   "repository": "https://github.com/NishitVSP/dumy.git",
   "author": "Nishit Prajapati",
   "license": "MIT",
+  "type": "module",
   "private": true,
   "dependencies": {
     "express": "^5.1.0",
+    "logger": "^0.0.1",
     "mathjs": "^14.4.0"
   },
   "devDependencies": {
@@ -16,6 +18,8 @@
   },
   "scripts": {
     "start": "node data.js",
-    "dev": "nodemon data.js"
+    "dev": "nodemon data.js",
+    "token-mock": "node tokenMock.js",
+    "main": "node mock/main.js"
   }
 }

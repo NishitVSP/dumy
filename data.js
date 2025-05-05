@@ -1,7 +1,3 @@
-const express = require('express');
-const app = express();
-const PORT = 3000;
-
 // Base values for the 6 indexes (realistic approximations or your own values)
 const indexes = {
   'Bank Nifty': 50000,
@@ -14,10 +10,8 @@ const indexes = {
 
 
 // Modify the generateMockValue function to create sinusoidal data
-function generateMockValue(base, name, timeIndex) {
-  const amplitude = 0.05; // 5% amplitude
-  const frequency = (2 * Math.PI) / 20; // Adjust frequency for a full cycle over 20 samples
-  const fluctuation = amplitude * Math.sin(frequency * timeIndex);
+function generateMockValue(base, name) {
+  const fluctuation = (Math.random() - 0.5) * 0.02; // Random fluctuation between -5% and +5%
   const value = base * (1 + fluctuation);
   return {
     name,
@@ -27,30 +21,20 @@ function generateMockValue(base, name, timeIndex) {
   };
 }
 
-// Route: /mock-data?duration=2
-app.get('/mock-data', (req, res) => {
-  const duration = parseInt(req.query.duration);
-
-  if (isNaN(duration) || duration <= 0) {
-    return res.status(400).json({ error: "Invalid duration" });
-  }
-
+// Function to continuously generate mock data
+function startMockDataGeneration() {
   const samplesPerSecond = 3;
-  const totalSamples = samplesPerSecond * duration;
-  const result = [];
+  const interval = 1000 / samplesPerSecond; // Interval in milliseconds
 
-  Object.keys(indexes).forEach(name => {
-    const basePrice = indexes[name];
-    for (let i = 0; i < totalSamples; i++) {
-      const mock = generateMockValue(basePrice, name, i);
-      result.push(mock);
-      console.log(`[${mock.timestamp}] ${mock.name}: ₹${mock.value} (${mock.fluctuationPercent}%)`);
-    }
-  });
+  setInterval(() => {
+    Object.keys(indexes).forEach(name => {
+      const basePrice = indexes[name];
+      for (let i = 0; i < samplesPerSecond; i++) {
+        const mock = generateMockValue(basePrice, name);
+        console.log(`[${mock.timestamp}] ${mock.name}: ₹${mock.value} (${mock.fluctuationPercent}%)`);
+      }
+    });
+  }, 1000);
+}
 
-  res.json(result);
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+startMockDataGeneration();
